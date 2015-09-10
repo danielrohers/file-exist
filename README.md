@@ -1,6 +1,8 @@
 # file-exist
 
-Example:
+Checks if the file exists in some other file
+
+## Example
 
 ```sh
 $ exists --source_path examples/js --target_path examples
