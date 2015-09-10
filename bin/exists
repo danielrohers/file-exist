@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var fs = require('fs');
+var path = require('path');
+var program = require('commander');
+
+program
+    .version('0.0.1')
+    .option('--source_path [value]', 'Source Path')
+    .option('--target_path [value]', 'Target Path')
+    .option('--source_file [value]', 'Source File')
+    .option('--target_file [value]', 'Target File')
+    .parse(process.argv);
+
+if (!program.source_path && !program.source_file) {
+  return program.outputHelp();
+}
+
+if (!program.target_path && !program.target_file) {
+  return program.outputHelp();
+}
+
+var source = program.source_path || program.source_file;
+var target = program.target_path || program.target_file;
+
+if (!fs.existsSync(source)) {
+  return console.log('Source "%s" not exists', source);
+}
+
+if (!fs.existsSync(target)) {
+  return console.log('Target "%s" not exists', target);
+}
+
+var _readdirSource = function (source) {
+  if (fs.statSync(source).isFile()) {
+    return _readdirTarget(source, target);
+  }
+
+  fs.readdir(source, function (err, files) {
+    if (err) {
+      throw err;
+    }
+
+    files.forEach(function (file) {
+      var pathFile = path.resolve(source, file);
+      if (fs.statSync(pathFile).isDirectory()) {
+        return _readdirSource(pathFile);
+      }
+      _readdirTarget(file, target);
+    });
+  });
+}
+
+var _readdirTarget = function (sourceFile, target) {
+  if (fs.statSync(target).isFile()) {
+    return _readFile(sourceFile, target);
+  }
+
+  fs.readdir(target, function (err, files) {
+      if (err) {
+        throw err;
+      }
+
+      files.forEach(function (file) {
+        var pathFile = path.resolve(target, file);
+        if (fs.statSync(pathFile).isDirectory()) {
+          return _readdirTarget(sourceFile, pathFile);
+        }
+        _readFile(sourceFile, pathFile);
+      });
+  });
+}
+
+var _readFile = function (sourceFile, targetFile) {
+  sourceFile = path.basename(sourceFile);
+  var data = fs.readFileSync(targetFile, { encoding: 'utf-8', flag: 'r' });
+
+  if (data.indexOf(sourceFile) !== -1) {
+    console.log(sourceFile + ' > ' + targetFile);
+  }
+}
+
+_readdirSource(source);

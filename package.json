@@ -1,0 +1,30 @@
+{
+  "name": "file-exist",
+  "version": "0.0.3",
+  "description": "",
+  "main": "./bin/exists",
+  "preferGlobal": true,
+  "bin": {
+    "exists": "./bin/exists"
+  },
+  "files": [
+    "bin/",
+    "examples/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "./bin/exists --source_path examples/js --target_path examples"
+  },
+  "author": "Daniel Rôhers Moura <rohersmoura@gmail.com> (https://github.com/danielrohers)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielrohers/file-exist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danielrohers/file-exist/issues"
+  },
+  "dependencies": {
+    "commander": "^2.8.1"
+  }
+}
