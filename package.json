@@ -1,11 +1,11 @@
 {
   "name": "file-exist",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "./bin/exists",
   "preferGlobal": true,
   "bin": {
-    "exists": "./bin/exists"
+    "exists": "bin/exists"
   },
   "files": [
     "bin/",
@@ -19,7 +19,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielrohers/file-exist.git"
+    "url": "git+https://github.com/danielrohers/file-exist.git"
   },
   "bugs": {
     "url": "https://github.com/danielrohers/file-exist/issues"
